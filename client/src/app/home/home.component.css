@@ -1,0 +1,56 @@
+.list-group-item {
+    /* margin: 0 auto; */
+    width: 100%;
+    border: none;
+    
+}
+
+.list-window{    
+    width: 40%;
+    height: 90%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px #ccc;
+    margin: 0 auto;
+  }
+ 
+
+.display-list{
+    border: 1px groove #ccc;
+    margin-top: 10px;
+    width: 310%;
+    border-left: none;
+    border-right: none;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.hi-message{
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    padding: 5px;
+    width: 100px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 5px #ccc;
+    text-decoration: solid;
+    text-align: center;
+}
+
+.send-message-button{
+    align-self: flex-end;
+    background-color: #007bff;
+    color: #fff;
+    width: 20%;
+    margin-left: auto;
+    border-radius: 5px;
+}
+
+ul {
+    padding-left: 0rem;
+}

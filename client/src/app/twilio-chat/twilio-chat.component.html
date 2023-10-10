@@ -1,0 +1,274 @@
+<!-- ////////////////////////////    RUNNING CODE ??????????????????????????????????????? -->
+<div class="chat-container" *ngIf="authenticated">
+  <div class="user-list">
+    <ul>
+      <h4 class="text-center text-primary">Select Users</h4>
+      <li
+        class="user-item"
+        *ngFor="let user of users"
+        (click)="openChatWindow(user)"
+        [class.active]="selectedId === user.id"
+        [ngClass]="{ 'crhc-item': user.name === 'CRHC' }"
+      >
+        <span class="user-name">{{ user.name }}</span>
+        <!-- <span
+          class="status-indicator"
+          [ngClass]="{ online: user.isOnline, offline: !user.isOnline }"
+        ></span> -->
+      </li>
+    </ul>
+  </div>
+  <div class="chat-content" *ngIf="selectedId">
+    <ng-container *ngIf="!isCRHC; else staticChat">
+      <div class="chat-header">
+        <h1>
+          {{ selectedData.name }}
+          <!-- <button
+            class="btn btn-success text-white float-end"
+            type="button"
+            (click)="refreshChat(convId)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-bootstrap-reboot"
+              viewBox="0 0 16 16"
+            >
+            -->
+        </h1>
+        <div class="chat-header-status">
+          <p
+            *ngIf="isUserOnline; else offlineText"
+            class="online-status"
+            style="color: green; font-weight: bold"
+          >
+            User is online
+          </p>
+          <ng-template #offlineText>
+            <p class="offline-status" style="color: red; font-weight: bold">
+              User is offline
+            </p>
+          </ng-template>
+        </div>
+      </div>
+      <div class="chat-messages chat-window" #chatWindow>
+        <!-- <ng-container *ngFor="let message of messages; let last = last">
+          <div
+            class="message received bg-light"
+            class="message"
+            [ngClass]="{
+              'user-message': message.from === 'user',
+              'api-message': message.from === 'api'
+            }"
+          >
+            {{ message.content }}
+            <img *ngIf="message.mediaUrl" [src]="message.mediaUrl" alt="Media">
+          </div> -->
+
+        <ng-container *ngFor="let message of messages; let last = last">
+          <div
+            class="message received bg-light"
+            class="message"
+            [ngClass]="{
+              'user-message': message.from === 'user',
+              'api-message': message.from === 'api'
+            }"
+          >
+            {{ message.content }}
+            <img
+              *ngIf="message.mediaUrl"
+              [src]="message.mediaUrl"
+              alt="Media"
+            />
+            <div *ngIf="message.mediaUrl">
+              <a [href]="message.mediaUrl" target="_blank">View Document</a>
+              <a [href]="message.mediaUrl" download>Download Document</a>
+            </div>
+          </div>
+          <div
+            *ngIf="!isUserOnline && last && message.content === lastSentMessage"
+            class="offline-message"
+            (click)="sendMessageAfterOffline()"
+          >
+            {{
+              isTextMessageSent
+                ? "Text message sent successfully!"
+                : "User is offline. Click here to send a text message!"
+            }}
+          </div>
+          <div
+            *ngIf="!isUserOnline && last && message.content === lastSentMessage"
+            class="offline-message"
+            (click)="sendEmailAfterOffline()"
+          >
+            {{
+              isEmailMessageSent
+                ? "Email sent successfully!"
+                : "User is offline. Click here to send a Email!"
+            }}
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="chat-input">
+        <form [formGroup]="msgForm">
+          <div class="inputs-container">
+            <input
+              formControlName="message"
+              placeholder="Type your message here"
+            />
+            <input type="file" (change)="onFileSelected($event)" />
+          </div>
+
+          <button
+            *ngIf="!selectedFile"
+            type="submit"
+            (click)="handleButtonClick()"
+          >
+            Send
+          </button>
+          <button *ngIf="selectedFile" type="submit" (click)="onUpload1()">
+            Upload
+          </button>
+          <input type="file" (change)="onFileSelected2($event)" />
+          <!-- <button (click)="onUpload()">Upload</button> -->
+        </form>
+        <!-- <input type="file" (change)="onFileSelected($event)">
+<button (click)="onUpload1()">load</button> -->
+      </div>
+
+      <!-- <form (submit)="uploadFile()">
+        <input type="file" (change)="onFileSelected($event)">
+        <button type="submit">Upload</button>
+      </form> -->
+    </ng-container>
+
+    <ng-template #staticChat>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">Chat with Dialogflow</div>
+
+              <div class="card-body">
+                <div class="chat-window">
+                  <div
+                    *ngFor="let message of messages"
+                    class="message"
+                    [ngClass]="{
+                      'user-message': message.from === 'user',
+                      'api-message': message.from === 'api'
+                    }"
+                  >
+                    {{ message.content }}
+                  </div>
+                </div>
+
+                <form (submit)="callDialogflowFun()" class="mt-3">
+                  <div class="form-group">
+                    <label for="body"></label>
+                    <textarea
+                      name="body"
+                      id="messagebody"
+                      class="form-control"
+                      placeholder="Type message here..."
+                      [(ngModel)]="Body"
+                      required
+                    ></textarea>
+                  </div>
+                  <br />
+                  <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="chat-content text-center bg-light m-auto" *ngIf="!selectedId">
+    <p><b>select any user to start conversation.</b></p>
+  </div>
+</div>
+
+<!-- ////////////////////////////    RUNNING CODE ??????????????????????????????????????? -->
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.1/socket.io.min.js"></script> -->
+
+<!-- <div class="hi-message">
+        {{ message }}
+    </div> -->
+<!-- 
+<div class="chat-container" *ngIf="authenticated">
+  <div class="user-list">
+    <ul>
+      <h4 class="text-center text-primary">Select Users</h4>
+      <li
+        class=""
+        *ngFor="let user of users"
+        (click)="openChatWindow(user)"
+        [class.active]="selectedId === user.id">
+        {{ user.name }}
+      </li>
+    </ul>
+  </div>
+  <div class="chat-content" *ngIf="selectedId">
+    <div class="chat-header">
+      <h1>
+        {{ selectedData.name }}
+        <button
+          class="btn btn-success text-white float-end"
+          type="button"
+          (click)="refreshChat(convId)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-bootstrap-reboot"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M1.161 8a6.84 6.84 0 1 0 6.842-6.84.58.58 0 1 1 0-1.16 8 8 0 1 1-6.556 3.412l-.663-.577a.58.58 0 0 1 .227-.997l2.52-.69a.58.58 0 0 1 .728.633l-.332 2.592a.58.58 0 0 1-.956.364l-.643-.56A6.812 6.812 0 0 0 1.16 8z"
+            />
+            <path
+              d="M6.641 11.671V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141zm0-3.75V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6z"
+            />
+          </svg>
+        </button>
+      </h1>
+    </div>
+    <div class="chat-messages chat-window" #chatWindow>
+      <div class="message sent"></div>
+      <div
+        class="message received bg-light"
+        *ngFor="let message of messages"
+        class="message"
+        [ngClass]="{
+          'user-message': message.from === 'user',
+          'api-message': message.from === 'api'
+        }"
+      >
+        {{ message.content }}
+      </div>
+    </div>
+    <div class="chat-input">
+      <form [formGroup]="msgForm">
+        <input formControlName="message" placeholder="Type your message here" />
+        <button type="submit" (click)="handleButtonClick()">
+          Send
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="chat-content text-center bg-light m-auto" *ngIf="!selectedId">
+    <p><b>select any user to start conversation.</b></p>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.1/socket.io.min.js"></script>
+ -->

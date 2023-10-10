@@ -1,0 +1,43 @@
+<div class="hi-message">
+{{ message }}
+</div>
+
+<div
+  class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center"
+  *ngIf="authenticated"
+>  <div class="list-window">
+    <a class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true"  >
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <ul >
+          <li class="display-list" *ngFor="let user of users" (click)="openChatWindow(user)">{{ user.name }}
+            <button class="send-message-button" >Message</button>
+          </li>  <br>
+        </ul>
+      </div></a
+    >
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------ -->
+<!-- <ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label> Total Count </ion-label>
+
+      {{ products.length }}
+    </ion-item>
+  </ion-list>
+
+  <ion-card button *ngFor="let u of products">
+    <ion-card-header>
+      <ion-card-title>
+        {{ u.productname }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{ u.description }}<br />
+      {{ u.price }}<br />
+    </ion-card-content>
+  </ion-card>
+</ion-content> -->
