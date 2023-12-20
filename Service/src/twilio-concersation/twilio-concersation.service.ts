@@ -265,7 +265,7 @@ export class TwilioConcersationService {
                 Media
                 // Include the socket ID in the message payload
                 //Status > Online/ offline -> boolean / 01
-                // Communication mode
+                // Communication mode -> web, text, email
             };
 
             const params = new URLSearchParams();
